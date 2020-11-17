@@ -326,6 +326,7 @@ void seek1(){
             scanf("%s",s1);
             for(i=0;i<n;i++)
             {
+               /* printf("%s  %s  %d \n",s1,stu[i].name,strcmp(s1,stu[i].name));*/
                 if(strcmp(stu[i].name,s1)==0)
                 {
                     flag=1;
@@ -333,10 +334,12 @@ void seek1(){
                     printf("----------------------------------\n");
                     printf("  %s\t%s\t%s\t%d\n",stu[i].id,stu[i].name,stu[i].list,stu[i].score);
                 }
+            }
                 if(flag==0){
-                    printf("该姓名不存在!\n");break;
-                    }
-                };break;
+                    printf("该姓名不存在!\n");
+                    break;
+                    };
+            break;
         case 3:return;
             }
 }
