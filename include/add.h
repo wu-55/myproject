@@ -14,9 +14,9 @@ int numpeople;
 }cour[N];
 
 struct student{
-char id[50];
-char name[50];
-char list[50];
+char id[20];
+char name[20];
+char list[20];
 int score;
 }stu[N];
 int m=0,n=0;//学生人数
@@ -290,7 +290,7 @@ void display1(){
 }
 void seek1(){
     int i,item,flag;
-    char s1[50];
+    char s1[20];
     printf("------------------\n");
 	printf("-----1.按学号查询-----\n");
 	printf("-----2.按姓名查询-----\n");
@@ -342,8 +342,8 @@ void seek1(){
 }
 }
 void modify1(){
-    int i,num=-1;
-    char s1[50],s2[50],s3[50];
+    int i,num,item;
+    char s1[20],s2[20],s3[20];
     int newscore;
     FILE *fp=fopen("../build/studentmodify.log","a+");
     printf("输入要修改的学生的学号:\n");
@@ -351,24 +351,53 @@ void modify1(){
     for(i=0;i<n;i++){
         if(strcmp(stu[i].id,s1)==0){
                 num=i;
-                printf("输入新的名字:\n");
-                scanf("%s",s2);
-                strcpy(stu[num].name,s2);
-                printf("输入新的课程列表:\n");
-                scanf("%s",s3);
-                strcpy(stu[num].list,s3);
-                printf("输入新的学分:\n");
-                scanf("%d",&newscore);
-                stu[num].score=newscore;
-                printf("修改成功!\n");
+               printf("欢迎进入修改系统!\n");
+               printf("1.修改姓名\n");
+               printf("2.修改已选课程列表\n");
+               printf("3.修改学分\n");
+               printf("4.返回菜单\n");
+               while(1){
+                   printf("输入菜单选项:\n");
+                   scanf("%d",&item);
+                   switch(item){
+                   case 1:
+                       printf("输入新的姓名:\n");
+                       scanf("%s",s2);
+                       strcpy(stu[num].name,s2);
+                       fprintf(fp,"你修改了学号为%s学生的姓名\n",stu[num].id);
+                       fclose(fp);
+                       break;
+                   case 2:
+                       printf("输入新的已选课程列表:\n");
+                       scanf("%s",s3);
+                       strcpy(stu[num].list,s3);
+                       fprintf(fp,"你修改了学号为%s学生的已选课程列表\n",stu[num].id);
+                       fclose(fp);
+                        break;
+                   case 3:
+                        printf("输入新的学分:\n");
+                        scanf("%d",&newscore);
+                        stu[num].score=newscore;
+                        fprintf(fp,"你修改了学号为%s学生的学分\n",stu[num].id);
+                        fclose(fp);
+                        break;
+                   case 4:
+                        return;
+                   }
+               }
+               printf("修改完毕!\n");
+        }
+        else{
+            printf("没有该学号！\n");
         }
     }
-    fprintf(fp,"你修改了学号为 %s 学生的信息\n",stu[num].id);
-    fclose(fp);
 }
+
+
+
 void del1(){
     int i,j,flag=0;
-    char s1[50];
+    char s1[20];
     printf("输入想要删除的学号:\n");
     scanf("%s",s1);
     for(i=0;i<n;i++){
