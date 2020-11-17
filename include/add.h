@@ -113,7 +113,7 @@ void modify(){
     int i,num,item;
     char s1[20];
     int newtime=0,newscore=0,newnumpeople=0;
-    FILE *fp=fopen("studentmodify.log","a+");
+    FILE *fp=fopen("../build/studentmodify.log","a+");
     printf("请输入你想修改的课程编号:\n");
     scanf("%s",s1);
     for(i=0;i<b;i++){
@@ -345,7 +345,7 @@ void modify1(){
     int i,num=-1;
     char s1[50],s2[50],s3[50];
     int newscore;
-    FILE *fp=fopen("studentmodify.log","a+");
+    FILE *fp=fopen("../build/studentmodify.log","a+");
     printf("输入要修改的学生的学号:\n");
     scanf("%s",s1);
     for(i=0;i<n;i++){
