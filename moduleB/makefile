@@ -1,10 +1,13 @@
-student:../RELEASE/student.o
-	gcc  $< -o $@
+AR :=ar
+LIB :=student.a
 
-../RELEASE/student.o:student.c
-	gcc -c $< -o $@
+$(LIB):student.o
+	$(AR) -r $@  $^
+
+student.o:student.c
+	gcc -o $@ -c $^
 
 .PHONY:clean
 clean:
-	rm  student
+	rm   *.o
 

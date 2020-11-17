@@ -63,7 +63,7 @@ void display(){
         printf("课程编号\t课程名称\t学时\t学分\t人数上限\n");
        printf("--------------------------------------------------------\n");
        for(i=0;i<b;i++){
-           printf("  %s\t%s\t%d\t%d\t%d\n",cour[i].bianhao,cour[i].name,cour[i].time,cour[i].score,cour[i].numpeople);
+           printf("  %s\t\t%s\t\t%d\t%d\t%d\n",cour[i].bianhao,cour[i].name,cour[i].time,cour[i].score,cour[i].numpeople);
        }
        printf("---------------------------------------------------------\n");
     }
@@ -87,7 +87,7 @@ void seek(){
             flag = 1;
 				printf("课程编号\t课程名\t学时\t学分\t已选人数\t人数上限\n");
 				printf("--------------------------------------------------------------------\n");
-				printf("  %s\t%s\t%d\t%d\t%d\t%d\n", cour[i].bianhao,cour[i].name,cour[i].time,cour[i].score,cour[i].pickp,cour[i].numpeople);
+				printf("  %s\t\t%s\t\t%d\t\t%d\t%d\t%d\n", cour[i].bianhao,cour[i].name,cour[i].time,cour[i].score,cour[i].pickp,cour[i].numpeople);
 			}
 			if (0 == flag)
 				printf("该课程不存在！\n"); break;
@@ -100,7 +100,7 @@ void seek(){
 				flag = 1;
 			    printf("课程编号\t课程名\t学时\t学分\t已选人数\t人数上限\n");
                 printf("--------------------------------------------------------------------\n");
-                printf("  %s\t%s\t%d\t%d\t%d\t%d\n", cour[i].bianhao,cour[i].name,cour[i].time,cour[i].score,cour[i].pickp,cour[i].numpeople);
+                printf("  %s\t\t%s\t\t%d\t\t%d\t%d\t%d\n", cour[i].bianhao,cour[i].name,cour[i].time,cour[i].score,cour[i].pickp,cour[i].numpeople);
 
             }
 			if (0 == flag)
@@ -113,6 +113,7 @@ void modify(){
     int i,num,item;
     char s1[20];
     int newtime=0,newscore=0,newnumpeople=0;
+    FILE *fp=fopen("studentmodify.log","a+");
     printf("请输入你想修改的课程编号:\n");
     scanf("%s",s1);
     for(i=0;i<b;i++){
@@ -129,16 +130,22 @@ void modify(){
                   printf("输入新的学时:\n");
                   scanf("%d",&newtime);
                   cour[num].time=newtime;
+                  fprintf(fp,"你修改了课程号为 %s 的学时\n",cour[num].bianhao);
+                  fclose(fp);
                   break;
             case 2:
                  printf("输入新的学分：\n");
                  scanf("%d",&newscore);
                  cour[num].score=newscore;
+                 fprintf(fp,"你修改了课程号为 %s 的学分\n",cour[num].bianhao);
+                 fclose(fp);
                  break;
         case 3:
             printf("输入新的人选上限:\n");
             scanf("%d",&newnumpeople);
             cour[num].numpeople=newnumpeople;
+            fprintf(fp,"你修改了课程号为 %s 的人选上限\n",cour[num].bianhao);
+            fclose(fp);
             break;
         case 4:
             return;                    
@@ -175,7 +182,7 @@ void del(){
 void save(){
     int i;
     FILE *fp;
-    fp=fopen("course.txt","w");
+    fp=fopen("course.txt","a+");
     for(i=0;i<b;i++){
         fprintf(fp,"%s\t%s\t%d\t%d\t%d\t%d\n",cour[i].bianhao,cour[i].name,cour[i].time,cour[i].score,cour[i].pickp,cour[i].numpeople);
     }
@@ -246,6 +253,10 @@ void insert(){
             }
             printf("请输入第%d 个学生的姓名:\n", i+1);
 			scanf("%s", stu[i].name);
+            printf("请输入第%d个学生选课列表:\n",i+1);
+            scanf("%s",stu[i].list);
+            printf("请输入第%d个学生的学分:\n",i+1);
+            scanf("%d",&stu[i].score);
             if(flag==0){
                 i++;
             }
@@ -257,7 +268,7 @@ void insert(){
 void save1(){
     int i;
     FILE *fp;
-    fp=fopen("student.txt","w");
+    fp=fopen("student.txt","a+");
     for(i=0;i<n;i++){    
         fprintf(fp,"%s\t%s\t%s\t%d\n",stu[i].id,stu[i].name,stu[i].list,stu[i].score);
     }
@@ -332,7 +343,9 @@ void seek1(){
 }
 void modify1(){
     int i,num=-1;
-    char s1[50],s2[50];
+    char s1[50],s2[50],s3[50];
+    int newscore;
+    FILE *fp=fopen("studentmodify.log","a+");
     printf("输入要修改的学生的学号:\n");
     scanf("%s",s1);
     for(i=0;i<n;i++){
@@ -341,9 +354,17 @@ void modify1(){
                 printf("输入新的名字:\n");
                 scanf("%s",s2);
                 strcpy(stu[num].name,s2);
+                printf("输入新的课程列表:\n");
+                scanf("%s",s3);
+                strcpy(stu[num].list,s3);
+                printf("输入新的学分:\n");
+                scanf("%d",&newscore);
+                stu[num].score=newscore;
                 printf("修改成功!\n");
         }
     }
+    fprintf(fp,"你修改了学号为 %s 学生的信息\n",stu[num].id);
+    fclose(fp);
 }
 void del1(){
     int i,j,flag=0;
@@ -384,13 +405,13 @@ void student(){
 int flag=1,num;
    while(flag){
     printf("     * 1.查询学生信息    * *  2.修改学生信息   *     \n");
-	printf("     *********************************************     \n");
+	printf("     *********************************************   \n");
 	printf("     * 3.增加学生信息    * *  4.按学号删除信息 *     \n");
-	printf("     *********************************************     \n");
-	printf("     * 5.显示当前信息    * *  6.保存当前学生信息*     \n");
-	printf("     ********************** **********************     \n");
-	printf("     * 7.文件读取        * *  8.退出系统       *      \n");
-    printf("     **********************                            \n");
+	printf("     *********************************************   \n");
+	printf("     * 5.显示当前信息    * *  6.保存当前学生信息*    \n");
+	printf("     ********************** **********************   \n");
+	printf("     * 7.文件读取        * *  8.退出系统       *     \n");
+    printf("     *********************************************   \n");
 	printf("     ----------------------   ---------------------- \n");
 	printf("请选择菜单编号:");
      scanf("%d",&num);
@@ -409,49 +430,6 @@ int flag=1,num;
     }
    }
 }
-/*void select(void){
-char s1[20],s2[20];
-int flag1=0,flag2=0,flag3=0,flag4=0;
-int index1=0,index2=0;
-while(1)
-{
-    printf("输入学生学号:\n");
-    scanf("%s",s1);
-    for(int i=0;i<b;i++){
-        if(strcmp(stu[i].id,s1)==0){
-            flag1=1;
-            index1=i;
-            break;
-        }
-    }
-    if(flag1==0){
-        printf("学号不存在，请重新输入!\n");
-        continue;
-    }
-    printf("请输入课程号:\n");
-      scanf("%s",s2);
-      for(int j=0;j<n;j++){
-          if(strcmp(cour[j].bianhao,s2)==0){
-              if(cour[j].numpeople<=cour[j].pickp){
-                  printf("该课程已经满了!\n");
-                  flag3=1;
-              }
-              flag2=1;
-              index2=j;
-              break;
-          }
-      }
-      if(flag2==0){
-          printf("课程号不存在,重新输入!\n");
-          continue;
-      }
-      if(flag3==1){
-          continue;
-      }
 
-      stu[index1].score+=cour[index2].score;
-      cour[index2].pickp++;
-}
-}*/
 #endif
 

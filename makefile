@@ -1,10 +1,12 @@
-main:../myproject/RELEASE/main.o
-	gcc  $< -o $@
+TARGET:=main
+SOURCE:=../myproject/RELEASE/main.o
+$(TARGET):$(SOURCE)
+	gcc  $^ -o $@
 
-../myproject/RELEASE/main.o:main.c
+$(SOURCE):main.c
 	gcc -c $< -o $@
 
 .PHONY:clean
 clean:
-	rm ../myproject/RELEASE/*.o  main
+	rm $(SOURCE)  $(TARGET)
 

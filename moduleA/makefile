@@ -1,10 +1,11 @@
-course : ../RELEASE/course.o
-	gcc  $< -o $@
+AR :=ar
+LIB :=lib.a
 
-../RELEASE/course.o:course.c
-	gcc -c $< -o $@
-
+$(LIB):course.o
+	$(AR) -r $@ $^
+course.o:course.c
+	gcc -c $^ -o $@
 .PHONY:clean
 clean:
-	rm  course
+	rm  *.o
 	
